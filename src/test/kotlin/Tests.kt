@@ -1,4 +1,5 @@
 import org.example.manageOperation
+import org.example.runDivisionMultiplicationOperations
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -26,5 +27,17 @@ class Tests {
     fun SimpleDivisionTest() {
         val operationResults = manageOperation("20/2")
         assertEquals(10, operationResults)
+    }
+
+    @Test
+    fun MultipleDivisionTest() {
+        val operationResultsDivision = runDivisionMultiplicationOperations("20/2/2")
+        assertEquals(5, operationResultsDivision.toInt())
+
+        val operationResultsMultiplication = runDivisionMultiplicationOperations("20*2*2")
+        assertEquals(80, operationResultsMultiplication.toInt())
+
+        val operationResultsMixed = runDivisionMultiplicationOperations("20/2*2")
+        assertEquals(20, operationResultsMixed.toInt())
     }
 }

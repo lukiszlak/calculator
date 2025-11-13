@@ -32,5 +32,27 @@ fun runOperation(operator: String, values: List<String>): Int {
         "/"-> values[0].toInt() / values[1].toInt()
         else -> throw Exception("The operator '$operator' is unsupported, use +/-/*//")
     }
+}
 
+fun runDivisionMultiplicationOperations(operation: String): String {
+    // regex uses lookbehind and lookahead to separate values and operators
+    val regex = Regex("(?<=[*/])|(?=[*/])")
+    val listedOperationRaw = operation.split(regex)
+    val listedOperation = listedOperationRaw.toMutableList()
+
+    while (listedOperation.size >= 3) {
+        val value1 = listedOperation[0].toInt()
+        val operator = listedOperation[1]
+        val value2 = listedOperation[2].toInt()
+
+        val operationResult = if (operator == "/") {
+            value1 / value2
+        } else {
+            value1 * value2
+        }
+
+        listedOperation.subList(0,3).clear()
+        listedOperation.add(0, operationResult.toString())
+    }
+    return listedOperation[0]
 }
