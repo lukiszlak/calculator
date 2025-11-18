@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
 
 fun manageOperation(operation: String): Int {
     val regexExpression = "(?<=[+-])|(?=[+-])".toRegex()
-    var operations = operation.split(regexExpression).toMutableList()
+    val operations = operation.split(regexExpression).toMutableList()
     val operatorsList = arrayListOf<String>("+", "-", "/", "*")
     for (i in operations.indices) {
         val operation = operations[i]
@@ -28,16 +28,6 @@ fun manageOperation(operation: String): Int {
     val finalResult = runAdditionSubstractionOperations(operations)
 
     return finalResult.toInt()
-}
-
-fun runOperation(operator: String, values: List<String>): Int {
-    return when(operator) {
-        "+"-> values[0].toInt() + values[1].toInt()
-        "-"-> values[0].toInt() - values[1].toInt()
-        "*"-> values[0].toInt() * values[1].toInt()
-        "/"-> values[0].toInt() / values[1].toInt()
-        else -> throw Exception("The operator '$operator' is unsupported, use +/-/*//")
-    }
 }
 
 fun isMultiplicationOrDivision(operation: String): Boolean {
