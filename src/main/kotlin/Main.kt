@@ -19,7 +19,6 @@ fun manageOperation(operation: String): Int {
             operation.toIntOrNull() != null -> operation
             operatorsList.contains(operation) -> operation
             isMultiplicationOrDivision(operation) -> runDivisionMultiplicationOperations(operation)
-            // TODO Do the above function and then run the result by runDivisionMultiplicationOperations
 
             else -> throw error("Wrong operation type $operation")
         }
