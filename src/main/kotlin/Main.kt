@@ -10,18 +10,24 @@ fun main(args: Array<String>) {
 }
 
 fun manageOperation(operation: String): Int {
-    val operator = getOperation(operation)
-    val values = operation.split(operator)
-    val operationResult = runOperation(operator, values)
-    return operationResult
-}
+    val regexExpression = "(?<=[+-])|(?=[+-])".toRegex()
+    var operations = operation.split(regexExpression).toMutableList()
+    val operatorsList = arrayListOf<String>("+", "-", "/", "*")
+    for (i in operations.indices) {
+        val operation = operations[i]
+        operations[i] = when {
+            operation.toIntOrNull() != null -> operation
+            operatorsList.contains(operation) -> operation
+            isMultiplicationOrDivision(operation) -> runDivisionMultiplicationOperations(operation)
+            // TODO Do the above function and then run the result by runDivisionMultiplicationOperations
 
-fun getOperation(operation: String): String {
-    val regexExpression = "\\d+(.*?)\\d+".toRegex()
-    val matchResults = regexExpression.find(operation)
+            else -> throw error("Wrong operation type $operation")
+        }
+    }
 
-    val operator = matchResults!!.groups[1]!!.value
-    return operator
+    val finalResult = runAdditionSubstractionOperations(operations)
+
+    return finalResult.toInt()
 }
 
 fun runOperation(operator: String, values: List<String>): Int {
@@ -32,6 +38,10 @@ fun runOperation(operator: String, values: List<String>): Int {
         "/"-> values[0].toInt() / values[1].toInt()
         else -> throw Exception("The operator '$operator' is unsupported, use +/-/*//")
     }
+}
+
+fun isMultiplicationOrDivision(operation: String): Boolean {
+    return operation.split("([*/])".toRegex()).size > 1
 }
 
 fun runDivisionMultiplicationOperations(operation: String): String {
@@ -45,10 +55,10 @@ fun runDivisionMultiplicationOperations(operation: String): String {
         val operator = listedOperation[1]
         val value2 = listedOperation[2].toInt()
 
-        val operationResult = if (operator == "/") {
-            value1 / value2
-        } else {
-            value1 * value2
+        val operationResult = when (operator) {
+            "/" -> value1 / value2
+            "*" -> value1 * value2
+            else -> throw error("Wrong operator $operator")
         }
 
         listedOperation.subList(0,3).clear()
