@@ -56,3 +56,21 @@ fun runDivisionMultiplicationOperations(operation: String): String {
     }
     return listedOperation[0]
 }
+
+fun runAdditionSubstractionOperations(operation: MutableList<String>): String {
+    while (operation.size >= 3) {
+        val value1 = operation[0].toInt()
+        val operator = operation[1]
+        val value2 = operation[2].toInt()
+
+        val operationResult = when (operator) {
+            "+" -> value1 + value2
+            "-" -> value1 - value2
+            else -> throw error("Wrong operator $operator")
+        }
+
+        operation.subList(0,3).clear()
+        operation.add(0, operationResult.toString())
+    }
+    return operation[0]
+}
